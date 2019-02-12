@@ -1,0 +1,94 @@
+package cominternshalajavafxapp;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class MyController implements Initializable {
+
+	@FXML
+	public Label welcomeLabel;
+
+	@FXML
+	public ChoiceBox<String> choiceBox;
+
+	@FXML
+	public TextField userInputField;
+
+	@FXML
+	public Button convertButton;
+
+	private static final String CtoF="Celcius to Farenheit";
+	private static final String FtoC="Farenheit to Celcius";
+
+	private boolean isCtoF=true;
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+
+		choiceBox.getItems().add(CtoF);
+		choiceBox.getItems().add(FtoC);
+
+		choiceBox.setValue(CtoF);
+
+		choiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
+			if(newValue.equals(CtoF)){
+				isCtoF=true;
+			}else {
+				isCtoF=false;
+			}
+		});
+
+		convertButton.setOnAction(event ->{
+				convert();
+		});
+
+	}
+
+	private void convert() {
+
+		String input=userInputField.getText();
+
+		float enteredTemperature=0.0f;
+		try {
+			enteredTemperature=Float.parseFloat(input);
+		}catch(Exception exception){
+			warnUser();
+			return;
+		}
+
+
+		float newTemperature=0.0f;
+		if(isCtoF){
+				newTemperature=(enteredTemperature * 9 / 5)+32;
+		}else {
+			newTemperature=(enteredTemperature-32)*5/9;
+		}
+		display(newTemperature);
+	}
+
+	private void warnUser() {
+		Alert alert=new Alert(Alert.AlertType.ERROR);
+		alert.setTitle("Error!");
+		alert.setHeaderText("Invalid Temperature entered");
+		alert.setContentText("Please Enter a valid temperature");
+		alert.show();
+	}
+
+	private void display(float newTemperature) {
+		String unit=isCtoF?" F":" C";
+		System.out.println("The new temperature is: "+newTemperature+unit);
+
+		Alert alert=new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Result");
+		alert.setContentText("The new temperature is: "+newTemperature+unit);
+		alert.show();
+	}
+}

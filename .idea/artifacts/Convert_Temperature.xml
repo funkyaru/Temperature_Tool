@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="apk" name="Convert Temperature">
+    <output-path>$PROJECT_DIR$/out/artifacts/Convert_Temperature</output-path>
+    <properties id="android-properties">
+      <options>
+        <option name="keyStoreUrl" value="file://" />
+      </options>
+    </properties>
+    <root id="archive" name="Convert Temperature.apk" />
+  </artifact>
+</component>
